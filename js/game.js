@@ -919,7 +919,7 @@ window.LEVEL_CONFIG = [
 			{x:300,y:300,radius:145}
 		],
 		// SUPER HACK - for level 2, change timer so it's impossible to beat if you go BACKWARDS.
-		countdown: 200
+		countdown: 300
 	},
 
 	// U
@@ -931,7 +931,7 @@ window.LEVEL_CONFIG = [
 		circles: [
 			{x:150,y:150,radius:115}
 		],
-		countdown: 130
+		countdown: 200
 	}
 
 ];
