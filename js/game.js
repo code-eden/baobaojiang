@@ -743,7 +743,7 @@ function iHeartYou(){
 	if(window.location.hash){
 		vtext.textContent = encryptString(decodeURIComponent(window.location.hash).substring(1));
 	}else{
-		vtext.textContent = "a lovely message from me to you <3";
+		vtext.textContent = "包包酱，继续往下看哟！";
 	}
 
 	setTimeout(function(){
@@ -801,8 +801,8 @@ function decryptString(string){
 	return encryptString(string); // it's XOR, duh
 }
 
-var yourMessage = document.getElementById("your_message");
-var yourLink = document.getElementById("your_link");
+//var yourMessage = document.getElementById("your_message");
+//var yourLink = document.getElementById("your_link");
 function linkChangey(){
 	if(yourMessage.value==""){
 		yourLink.value = "http://ncase.me/door/";
@@ -810,12 +810,12 @@ function linkChangey(){
 		yourLink.value = "http://ncase.me/door/#"+encodeURIComponent(encryptString(yourMessage.value));
 	}
 };
-yourMessage.onchange = linkChangey;
-yourMessage.oninput = linkChangey;
-linkChangey();
-yourLink.onclick = function(){
-	yourLink.select();
-};
+//yourMessage.onchange = linkChangey;
+//yourMessage.oninput = linkChangey;
+//linkChangey();
+/*yourLink.onclick = function(){
+	//yourLink.select();
+};*/
 
 function socialShare(event,type){
 
