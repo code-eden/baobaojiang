@@ -1,81 +1,140 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>圣诞节动态下雪页面雪花飘落代码</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>包包酱，圣诞快乐！</title>
 
-<link href="css/style.css" rel="stylesheet" type="text/css">
+	<link href="css/style.css" rel="stylesheet" type="text/css">
 
-<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="js/jquery.let_it_snow.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
+	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.let_it_snow.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
 
-	$("canvas.flare").let_it_snow({
-		windPower: 0,
-		speed: 0,
-		color: "#392F52",
-		size:80,
-		opacity: 0.00000001,
-		count: 80,
-		interaction: false
-	});
+			$("canvas.flare").let_it_snow({
+				windPower: 0,
+				speed: 0,
+				color: "#392F52",
+				size: 60,
+				opacity: 0.00000001,
+				count: 20,
+				interaction: false
+			});
 
-	$("canvas.snow").let_it_snow({
-		windPower: 3,
-		speed: 2,
-		count: 300,
-		size: 0
-	});
+			$("canvas.snow").let_it_snow({
+				windPower: 3,
+				speed: 2,
+				count: 300,
+				size: 0
+			});
 
-	$("canvas.flake").let_it_snow({
-		windPower: -2,
-		speed: 2,
-		count: 40,
-		size: 3,
-		image: "images/white-snowflake.png"
-	});
+			$("canvas.flake").let_it_snow({
+				windPower: -2,
+				speed: 2,
+				count: 40,
+				size: 3,
+				image: "images/white-snowflake.png"
+			});
+			function printInterval(ctx, str, x, y) {
+				ctx.fillText(str, x, y);
+				//setTimeout(() => ctx.fillText(str, x, y), 1000);
+			}
 
-	var c=document.getElementById("tree");
-	console.log("width "+c.width);
-	console.log("height" + c.height);
-	c.width=800;
-	console.log("width" + document.body.clientWidth);
-	console.log("height" + document.body.clientHeight);
-	c.height=document.body.clientHeight;
-    var ctx=c.getContext("2d");
-ctx.fillStyle="#FF0000";
-ctx.fillRect(0,0,150,75);
+			function sleep(numberMillis) {
+				var now = new Date();
+				var exitTime = now.getTime() + numberMillis;
+				while (true) {
+					now = new Date();
+					if (now.getTime() > exitTime)
+						return true;
+				}
+			}
 
-// 设置字体
-ctx.font = "Bold 20px Arial"; 
-// 设置对齐方式
-ctx.textAlign = "left";
-// 设置填充颜色
-ctx.fillStyle = "#008600"; 
-// 设置字体内容，以及在画布上的位置
-ctx.fillText("✩ ★ ✮ ||||||||", 10, 50); 
-ctx.fillText("✩ ★ ✮ ", 20, 80);
-ctx.fillText("✩ ★ ✮ ", 40, 200);
-ctx.font = " 20px Arial"; 
-// 设置填充颜色
-ctx.fillStyle = "#008600"; 
-ctx.fillText("✩ ★ ✮ ||||||||", 10, 100); 
-});
-</script>
+			function sleep2(time) {
+				return new Promise(resolve => setTimeout(resolve, time))
+			}
+
+			var c = document.getElementById("tree");
+			console.log("width " + c.width);
+			console.log("height" + c.height);
+			//c.width=800;
+			console.log("width" + document.body.clientWidth);
+			console.log("height" + document.body.clientHeight);
+			c.width = document.body.clientWidth;
+			c.height = document.body.clientHeight;
+			var sCenter = c.width / 2;
+			var borderC = "#990000";
+			var leafC = "#00b300";
+			var ctx = c.getContext("2d");
+			var leaf = "``♥´´"
+			ctx.textAlign = "left";
+			// 树主干
+
+			var leftStart = sCenter - 50;
+			var bootomStart = c.height - 50;
+			var timer = 0;
+			var rightOffset = 3;
+			var bootomOffset = 15;
+			var treeH = 8;
+			var treeW = 14;
+			var treeHalfW = 7;
+			var treeHIndex = 0;
+			var lineWIndex = 0;
+
+			function printTree() {
+				var ctxx = c.getContext("2d");
+
+				if (lineWIndex >= treeHalfW) {
+					lineWIndex = 0;
+					treeHIndex++;
+					bootomStart = bootomStart - bootomOffset;
+				}
+				if (treeHIndex >= treeH) {
+					console.log("clearTimeout");
+					clearTimeout(timer);
+					return;
+				}
+
+				console.log("lineWIndex " + lineWIndex);
+				console.log("treeHIndex " + treeHIndex);
+				console.log("print line");
+				let leftX = sCenter - lineWIndex * rightOffset;
+				let rightX = sCenter + lineWIndex * rightOffset;
+
+				if (leftX != rightX) {
+					ctxx.fillText("|", leftX, bootomStart);
+				}
+				ctxx.fillText("|", rightX, bootomStart);
+				lineWIndex++;
+				//printInterval(ctx, "|", leftStart + lineWIndex * rightOffset, bootomStart - bootomOffset * treeHIndex);
+				timer = setTimeout(printTree, 100);
+			}
+
+			var leafArray=
+			function printLeaf(){
+				
+			}
+
+			ctx.font = "Bold 14px Arial";
+			ctx.fillStyle = borderC;
+			printTree();
+		
+		});
+	</script>
 
 </head>
-<body>
 
+<body>
 	<canvas width="100%" height="100%" class="flare"></canvas>
 	<canvas width="100%" height="100%" class="snow"></canvas>
 	<canvas width="100%" height="100%" class="flake"></canvas>
-	
-<div style="text-align:center;">
-<p>Merry Christmas</p>
-</div>
-<div class="container">
-<canvas width="500px" height="100%" id="tree" calss="tree"></canvas>
-</div>
+
+
+	<div class="container">
+		<canvas id="tree" calss="tree"></canvas>
+	</div>
 </body>
+
 </html>
